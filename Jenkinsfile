@@ -24,7 +24,7 @@ node {
          //Remove java-deploy-container if it exisits
         sh " docker rm -f java-deploy-container || true"
        
-        sh "docker run --name java-deploy-container --volumes-from maven-build-container -d -p 8080:8080 SevakAvet/petclinic-deploy"
+        sh "docker run --name java-deploy-container --volumes-from maven-build-container -d -p 8080:8080 denisdbell/petclinic-deploy"
    }
 
 }
