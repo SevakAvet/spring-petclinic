@@ -1,11 +1,11 @@
-
 node {
 
    stage('Clone Repository') {
         // Get some code from a GitHub repository
-        git 'https://github.com/denisdbell/spring-petclinic.git'
+        git 'https://github.com/SevakAvet/spring-petclinic.git'
     
    }
+   
    stage('Build Maven Image') {
         docker.build("maven-build")
    }
@@ -13,18 +13,18 @@ node {
    stage('Run Maven Container') {
        
         //Remove maven-build-container if it exisits
-        sh " docker rm -f maven-build-container"
+        sh " docker rm -f maven-build-container || true"
         
         //Run maven image
-        sh "docker run --rm --name maven-build-container maven-build"
+        sh "docker run --name maven-build-container maven-build"
    }
    
    stage('Deploy Spring Boot Application') {
         
-         //Remove maven-build-container if it exisits
-        sh " docker rm -f java-deploy-container"
+         //Remove java-deploy-container if it exisits
+        sh " docker rm -f java-deploy-container || true"
        
-        sh "docker run --name java-deploy-container --volumes-from maven-build-container -d -p 8080:8080 denisdbell/petclinic-deploy"
+        sh "docker run --name java-deploy-container --volumes-from maven-build-container -d -p 8080:8080 SevakAvet/petclinic-deploy"
    }
 
 }
